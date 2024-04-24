@@ -171,7 +171,7 @@ ffmpeg -f avfoundation -i ":0" -ac 1 -ar 16000 -f s16le -c:a pcm_s16le - | nc 12
 ffmpeg -i demo.wav -ac 1 -ar 16000 -f s16le -c:a pcm_s16le - | nc 127.0.0.1 10086
 ```
 
-运行这几个例子的时候，需要先开启服务，然后才能在另一台机子上ffmpeg。
+运行这几个例子的时候，需要先开启服务，然后才能在另一台机子上ffmpeg。在windows暂时还没不能转发。docker内映射了端口可以正常运行。
 
 - arecord sends realtime audio from a sound device (e.g. mic), in raw audio format -- 16000 sampling rate, mono channel, S16\_LE -- signed 16-bit integer low endian. (use the alternative to arecord that works for you)
 
