@@ -41,7 +41,7 @@ else:
 
 import argparse
 from qwen import Qwen
-args_qwen = {"qbmodel":"models/BM1684X/qwen-7b_int8_1dev.bmodel","qtoken":"token_config","qdev_id":10}
+args_qwen = {"qbmodel":"models/BM1684X/qwen-7b_int8_1dev.bmodel","qtoken":"token_config","qdev_id":8}
 
 args_qwen = argparse.Namespace(**args_qwen)
 qwen=Qwen(args_qwen)

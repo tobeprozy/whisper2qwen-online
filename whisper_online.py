@@ -276,9 +276,9 @@ class OnlineASRProcessor:
         print(f"transcribing {len(self.audio_buffer)/self.SAMPLING_RATE:2.2f} seconds from {self.buffer_time_offset:2.2f}",file=self.logfile)
         res = self.asr.transcribe(self.audio_buffer, init_prompt=prompt)
         print(res)
-
-        print("Answer:"+res[0]['text'])
-        self.qwen.chat(res[0]['text'])
+        full_text = ' '.join([entry['text'] for entry in res])
+        print("Question:"+full_text)
+        self.qwen.chat(full_text)
 
         # transform to [(beg,end,"word1"), ...]
         tsw = self.asr.ts_words(res)
@@ -454,7 +454,7 @@ def add_shared_args(parser):
     from bmwhisper.utils import optional_float
     parser.add_argument('--dev_id', type=int, default=0, help='dev id for sophgo tpu')
     parser.add_argument('--min-chunk-size', type=float, default=1.0, help='Minimum audio chunk size in seconds. It waits up to this time to do processing. If the processing takes shorter time, it waits, otherwise it processes the whole segment that was received by this time.')
-    parser.add_argument('--model', type=str, default='base', choices="tiny.en,tiny,base.en,base,small.en,small,medium.en,medium,large-v1,large-v2,large-v3,large".split(","),help="Name size of the Whisper model to use (default: large-v2). The model is automatically downloaded from the model hub if not present in model cache dir.")
+    parser.add_argument('--model', type=str, default='medium', choices="tiny.en,tiny,base.en,base,small.en,small,medium.en,medium,large-v1,large-v2,large-v3,large".split(","),help="Name size of the Whisper model to use (default: large-v2). The model is automatically downloaded from the model hub if not present in model cache dir.")
     parser.add_argument("--logprob_threshold", type=optional_float, default=-1.0, help="if the average log probability is lower than this value, treat the decoding as failed")
     parser.add_argument("--no_speech_threshold", type=optional_float, default=0.0, help="if the probability of the <|nospeech|> token is higher than this value AND the decoding has failed due to `logprob_threshold`, consider the segment as silence")
     parser.add_argument('--model_dir', type=str, default="./models", help="Dir where Whisper model.bin and other files are saved.")

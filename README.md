@@ -148,6 +148,8 @@ online.init()  # refresh if you're going to re-use the object for the next audio
 `whisper_online_server.py` has the same model options as `whisper_online.py`, plus `--host` and `--port` of the TCP connection. See help message (`-h` option).
 ```bash
 python3 whisper_online_server.py --min-chunk-size 1 --dev_id 0 > out.txt
+
+python3 whisper2qwen_online_server.py --min-chunk-size 1 --dev_id 7
 ```
 
 Client example:
@@ -175,7 +177,11 @@ ffmpeg -i demo.wav -ac 1 -ar 16000 -f s16le -c:a pcm_s16le - | nc 127.0.0.1 1008
 
 - nc is netcat with server's host and port
 
-
+window上只能用这种方式，ncat只能转发语音。
+```
+netsh interface portproxy add v4tov4 listenport=10086 listenaddress=127.0.0.1 connectport=10086 connectaddress=172.28.3.106 protocol=tcp
+ffmpeg -re -f dshow -i audio="外部麦克风 (Realtek(R) Audio)" -ac 1 -ar 16000 -f s16le tcp://127.0.0.1:10086
+```
 
 ### Reference
 Origin repo: https://github.com/ufal/whisper_streaming
