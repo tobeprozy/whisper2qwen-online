@@ -179,7 +179,7 @@ ffmpeg -i demo.wav -ac 1 -ar 16000 -f s16le -c:a pcm_s16le - | nc 127.0.0.1 1008
 
 window上只能用这种方式，ncat只能转发语音。
 ```
-netsh interface portproxy add v4tov4 listenport=10086 listenaddress=127.0.0.1 connectport=10086 connectaddress=172.28.3.106 protocol=tcp
+netsh interface portproxy add v4tov4 listenport=10086 listenaddress=127.0.0.1 connectport=10086 connectaddress=xxx.xxx.xxx.xxx protocol=tcp
 ffmpeg -re -f dshow -i audio="外部麦克风 (Realtek(R) Audio)" -ac 1 -ar 16000 -f s16le tcp://127.0.0.1:10086
 ```
 
